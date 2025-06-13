@@ -18,7 +18,7 @@ int main(){
 	srand(time(NULL));
 	for (int i=0; i < Rows ; i++){
 		for (int j = 0 ; j < Columns ; j++){
-			Matrix[i][j]=rand()%2;
+			Matrix[i][j]=static_cast<float>(rand()%10)/2;
 		}
 	}
 	for (int i=0; i < Rows ; i++){
