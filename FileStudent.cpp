@@ -1,7 +1,8 @@
 #include<iostream>
 #include<fstream>
 #include<limits>
-#include<string>
+#include<vector>
+#include<algorithm>
 
 int main(){
 	int choice;
@@ -12,6 +13,8 @@ int main(){
 	};
 	Student S;
 	std::string line;
+	std::vector<Student> Vec;
+	std::string SortChoice;
 	do{
 	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\nChoice : "<<std::endl;
 	std::cin>>choice;
@@ -32,12 +35,21 @@ int main(){
 		else std::cout<<"Erreur !! Your File is not opening";
 		
 	}else if(choice == 2){
+		Vec.clear();
 		std::cout<<"-----------------";
 		while(getline(file,S.Name)){
 			file>>S.age;
 			file>>S.grade;
 			file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout<<"\nName : "<< S.Name <<"\nAge : "<< S.age <<"\nGrade :"<< S.grade<<std::endl;
+			Vec.push_back(S);
+		}
+		std::cout<<std::endl<<"Please Choose How you want to sort the Vec : "<<std::endl;
+		std::cin>>SortChoice;
+		if(SortChoice=="age")std::sort(Vec.begin(),Vec.end(),[] (Student& a , Student& b) {return a.age <b.age;});
+		else if (SortChoice=="Name")std::sort(Vec.begin(),Vec.end(),[] (Student& a , Student& b){return a.Name< b.Name;});
+		else if (SortChoice=="grade")std::sort(Vec.begin(),Vec.end(),[](Student& a, Student& b){return a.grade< b.grade;});
+		for(auto&element:Vec){
+			std::cout<<std::endl<<element.Name<<std::endl<< element.age<<std::endl<< element.grade<<std::endl;
 		}
 		std::cout<<"-----------------\n";
 	}
