@@ -34,7 +34,9 @@ int main(){
 	}else if(choice == 2){
 		std::cout<<"-----------------";
 		while(getline(file,S.Name)){
-			file >>S.age >> S.grade;
+			file>>S.age;
+			file>>S.grade;
+			file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout<<"\nName : "<< S.Name <<"\nAge : "<< S.age <<"\nGrade :"<< S.grade<<std::endl;
 		}
 		std::cout<<"-----------------\n";
