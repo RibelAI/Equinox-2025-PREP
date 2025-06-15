@@ -16,8 +16,10 @@ int main(){
 	std::vector<Student> Vec;
 	std::string SortChoice;
 	std::string SaveChoice;
+	std::string SearchName;
+	float AboveGrade;
 	do{
-	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\nChoice : "<<std::endl;
+	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\n3/Search for a student by name\n4/Display All students above a certain grade\nChoice : "<<std::endl;
 	std::cin>>choice;
 	std::fstream file("data.txt",std::ios::in|std::ios::out|std::ios::app);
 	if (choice==1){
@@ -69,6 +71,38 @@ int main(){
 		Sortedfile.close();
 		}
 
+	}else if (choice==3){
+		Vec.clear();
+		std:: ifstream filereadtovec("data.txt");
+		while(getline(filereadtovec,S.Name)){
+			filereadtovec>>S.age>>S.grade;
+			filereadtovec.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			Vec.push_back(S);
+		}
+		std::cout<<"Please Enter The Name You are Searching For :"<<std::endl;
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		getline(std::cin,SearchName);
+		for(auto& element : Vec){
+			if(element.Name==SearchName){
+				std::cout<<element.Name<<std::endl<<element.age<<std::endl<<element.grade<<std::endl;
+				break;
+			}
+		}
+	}else if(choice==4){
+		Vec.clear();
+		std:: ifstream filereadtoVec1("data.txt");
+		while(getline(filereadtoVec1,S.Name)){
+			filereadtoVec1>>S.age>>S.grade;
+			filereadtoVec1.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			Vec.push_back(S);
+		}
+		std::cout<<"Please Enter The Grade :"<<std::endl;
+		std::cin>>AboveGrade;
+		for(auto& element : Vec){
+			if(element.grade > AboveGrade){
+				std::cout<<element.Name<<std::endl<<element.age<<std::endl<<element.grade<<std::endl;
+			}
+		}
 	}
 	file.close();
 	}while(choice!=0);
