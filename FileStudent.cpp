@@ -15,6 +15,7 @@ int main(){
 	std::string line;
 	std::vector<Student> Vec;
 	std::string SortChoice;
+	std::string SaveChoice;
 	do{
 	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\nChoice : "<<std::endl;
 	std::cin>>choice;
@@ -52,6 +53,22 @@ int main(){
 			std::cout<<std::endl<<element.Name<<std::endl<< element.age<<std::endl<< element.grade<<std::endl;
 		}
 		std::cout<<"-----------------\n";
+		std::cout<<"Do you want to save the sorted file in a seperate txt file ?"<<std::endl;
+		std::cin>>SaveChoice;
+		if(SaveChoice == "Yes"){
+			std::ofstream Sortedfile("SortedData.txt");
+			if(Sortedfile.is_open()){
+				for(auto&element : Vec){
+					Sortedfile<<element.Name<<std::endl;
+					Sortedfile<<element.age<<std::endl;
+					Sortedfile<<element.grade<<std::endl;
+				}
+				
+			}
+			else std::cout<<"The Sorted Save file couldn t open"<<std::endl;
+		Sortedfile.close();
+		}
+
 	}
 	file.close();
 	}while(choice!=0);
