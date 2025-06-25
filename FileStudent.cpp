@@ -11,6 +11,7 @@ int main(){
 		int age ;
 		float grade;
 	};
+	
 	Student S;
 	std::string line;
 	std::string SortChoice;
@@ -22,11 +23,20 @@ int main(){
 		private :
 			std::vector<Student> StudentDatabase;
 		public :
+			void addstudentovecustom(Student& S){
+				std::cout<<"Name : "<<std::endl;
+				std::cin>>S.Name;
+				std::cout<<"Age : "<<std::endl;
+				std::cin>>S.age;
+				std::cout<<"Grade : "<<std::endl;
+				std::cin>>S.grade;
+				StudentDatabase.push_back(S);
+			}
 			void addstudentovec(Student& S){
 				StudentDatabase.push_back(S);
 			}
 			
-			void LoadFromFile(std::string& filename , Student& S){
+			void LoadFromFile(const std::string& filename , Student& S){
 				std::ifstream file(filename);
 				if(file.is_open()){
 					while(getline(file,S.Name)){
@@ -41,7 +51,7 @@ int main(){
 
 				
 			}
-			void SaveToFile(std::string& filename){
+			void SaveToFile(const std::string& filename){
 				std::ofstream file2(filename);
 				if(file2.is_open()){
 					for(auto& element:StudentDatabase){
@@ -69,11 +79,16 @@ int main(){
 			
 			void Filter(){
 				std::string ChoiceFilter;
-				std::cout<<"In Order To Filter The Students You Need a criteria to base your choice on :\n1 : Similar Names\n2 : Age=>18\n3 : Grade=>16"<<std::endl;
+				std::cout<<"In Order To Filter The Students You Need a criteria to base your choice on :\n1 : SimilarNames\n2 : Age=>18\n3 : Grade=>16"<<std::endl;
 				std::cin>>ChoiceFilter;			
 				if(ChoiceFilter == "SimilarNames") {
+				if(StudentDatabase.size()==1){
+std::cout<<StudentDatabase[0].Name<<std::endl<<StudentDatabase[0].age<<std::endl<<StudentDatabase[0].grade<<std::endl<<"--"<<std::endl;
+					}else if(StudentDatabase.size()>1){
+				
 					for(int i = 0;i<StudentDatabase.size()-1;i++){
 						if(StudentDatabase[i].Name==StudentDatabase[i+1].Name) std::cout<<StudentDatabase[i].Name<<std::endl<<StudentDatabase[i].age<<std::endl<<StudentDatabase[i].grade<<std::endl<<"--"<<std::endl;
+					}
 					}
 					
 				}else if(ChoiceFilter == "Age"){
@@ -93,8 +108,9 @@ int main(){
 			}
 		
 	};
+	StudentDatabase DB;
 	do{
-	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\n3/Search for a student by name\n4/Display All students above a certain grade\nChoice : "<<std::endl;
+	std::cout<<"Choose :\n1/Add a new Student\n2/Display all students from the file\n3/Search for a student by name\n4/Display All students above a certain grade\n5/Load To Database\n6/Add a student to the DB\n7/Save the DB to the Data File\n8/Sort all the files in the DB\n9/Filter the DB \nChoice : "<<std::endl;
 	std::cin>>choice;
 	std::fstream file("data.txt",std::ios::in|std::ios::out|std::ios::app);
 	if (choice==1){
@@ -179,6 +195,23 @@ int main(){
 			}
 		}
 	}
+	else if(choice==5){
+		std::cout<<"Now We will be loading all the data into the Students Database"<<std::endl;
+
+		DB.LoadFromFile("data.txt",S);
+	}else if(choice==6){
+		std::cout<<"Now You can add a student if you want : "<<std::endl;
+		DB.addstudentovecustom(S);
+		}else if(choice==7){
+			std::cout<<"Now You can save the DB data into a file"<<std::endl;
+			DB.SaveToFile("data.txt");
+		}else if(choice==8){
+			std::cout<<"Now You can Sort the DB "<<std::endl;
+			DB.SortbyChoice();
+		}else if(choice==9){
+			std::cout<<"Now You can Filter The DB"<<std::endl;
+			DB.Filter();
+		}
 	file.close();
 	}while(choice!=0);
 }
